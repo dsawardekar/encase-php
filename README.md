@@ -289,7 +289,11 @@ And then execute:
 
 Encase has been tested to work on these platforms.
 
-* php 5.3+
+* PHP 5.3
+* PHP 5.3.3
+* PHP 5.4
+* PHP 5.5
+* PHP 5.6
 
 ## Contributing
 
