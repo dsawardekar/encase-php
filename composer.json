@@ -1,5 +1,6 @@
 {
   "name": "dsawardekar/encase-php",
+  "version": "0.1.1",
   "type": "library",
   "description": "Lightweight IOC container for PHP",
   "keywords": ["ioc","dependency injection", "container"],
