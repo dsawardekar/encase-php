@@ -1,8 +1,22 @@
 {
+  "name": "dsawardekar/encase-php",
+  "type": "library",
+  "description": "Lightweight IOC container for PHP",
+  "keywords": ["ioc","dependency injection", "container"],
+  "homepage": "http://github.com/dsawardekar/encase-php",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Darshan Sawardekar",
+      "email": "darshan@sawardekar.org",
+      "homepage": "http://pressing-matters.io",
+      "role": "Developer"
+    }
+  ],
   "require-dev": {
     "phpunit/phpunit": "~3.7.0"
   },
   "autoload": {
-      "psr-4": {"Encase\\": "src/Encase"}
+    "psr-4": {"Encase\\": "src/Encase"}
   }
 }
