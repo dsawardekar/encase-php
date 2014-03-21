@@ -1,0 +1,8 @@
+{
+  "require-dev": {
+    "phpunit/phpunit": "~3.7.0"
+  },
+  "autoload": {
+      "psr-4": {"Encase\\": "src/Encase"}
+  }
+}
