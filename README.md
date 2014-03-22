@@ -299,6 +299,10 @@ Encase has been tested to work on these platforms.
 
 See contributing guidelines for [Portkey][4].
 
+## License
+
+MIT License. Copyright © 2014 Darshan Sawardekar
+
 [1]: https://travis-ci.org/dsawardekar/encase-php.png
 [2]: https://travis-ci.org/dsawardekar/encase-php
 [3]: https://github.com/dsawardekar/encase
