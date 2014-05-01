@@ -21,6 +21,33 @@ class ObjectItemTest extends \PHPUnit_Framework_TestCase {
     $this->assertFalse($this->objectItem->inject('object'));
   }
 
+  function test_it_can_run_initializer_once() {
+    $this->objectItem->store('foo', 'value');
+
+    $initializer = new MockInitializer();
+    $this->objectItem->initializer = array($initializer, 'run');
+    $instance = $this->objectItem->instance();
+    $this->objectItem->instance();
+    $this->objectItem->instance();
+
+    $this->assertEquals('value', $instance);
+    $this->assertEquals('value', $initializer->object);
+    $this->assertEquals($this->container, $initializer->container);
+    $this->assertEquals(1, $initializer->count);
+  }
+
+}
+
+class MockInitializer {
+
+  public $count = 0;
+
+  function run($object, $container) {
+    $this->count++;
+    $this->object = $object;
+    $this->container = $container;
+  }
+
 }
 
 ?>

@@ -16,6 +16,7 @@ A Ruby implementation is [here][3].
 * Simple API for configuring the container
 * Support for nested containers
 * Support for lazy initialization
+* Initializers
 
 ## Usage
 
@@ -173,6 +174,37 @@ $container->object('key', function($container) {
 The `closure` or `callable` takes an argument equal to the container object
 itself. You can use this to conditionally resolve the value based on
 other objects in the container or elsewhere in the system.
+
+## Initializers
+
+Initializers are useful when working with objects from external
+libraries that don't use the Encase Container. Such objects don't
+declare their `needs`, but still have to be initialized before they can
+be used.
+
+The `initializer` method takes the key of object to initialize and a
+`$callable` that will initialize the object. The callable will receive 2
+arguments, the value of the object being looked up from the Container and the container
+itself.
+
+For `object` and `singleton` item types initialization happens on first lookup only.
+While `factory` item types will have their initializers run every time a
+new instance is looked up from the Container.
+
+The code below stores a `Currency` object in the container. An
+initializer is added for this object that ensures that a formatter is
+set on this object every time it is instantiated.
+
+```php
+<?php
+$container->factory('currency', 'Currency');
+$container->factory('formatter', 'NumberFormatter');
+$container->initializer('currency', array($this, 'initCurrency'));
+
+function initCurrency($currency, $container) {
+  $currency->setFormatter($container->lookup('formatter'));
+}
+```
 
 ## Nested Containers
 
