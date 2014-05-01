@@ -8,6 +8,7 @@ class ContainerItem {
   public $key;
   public $value;
   public $reifiedValue = null;
+  public $initializer = null;
 
   function __construct($container) {
     $this->container = $container;
@@ -54,7 +55,23 @@ class ContainerItem {
     $object = $this->fetch();
     $this->inject($object, $origin);
 
+    if ($this->hasInitializer()) {
+      $this->initialize($object, $origin);
+    }
+
     return $object;
+  }
+
+  function hasInitializer() {
+    return is_null($this->initializer) === false;
+  }
+
+  function initialize($object, $origin = null) {
+    if (is_null($origin)) {
+      $origin = $this->container;
+    }
+
+    call_user_func($this->initializer, $object, $origin);
   }
 }
 

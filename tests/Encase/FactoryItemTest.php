@@ -33,4 +33,31 @@ class FactoryItemTest extends \PHPUnit_Framework_TestCase {
 
     $this->assertNotSame($box, $box2);
   }
+
+  function test_it_can_run_factory_item_initializer_always() {
+    $this->factoryItem->store('foo', 'Encase\\Box');
+
+    $initializer = new MockFactoryInitializer();
+    $this->factoryItem->initializer = array($initializer, 'run');
+
+    $instance = $this->factoryItem->instance();
+    $this->factoryItem->instance();
+    $this->factoryItem->instance();
+
+    $this->assertInstanceOf('Encase\\Box', $instance);
+    $this->assertEquals($this->container, $initializer->container);
+    $this->assertEquals(3, $initializer->count);
+  }
+}
+
+class MockFactoryInitializer {
+
+  public $count = 0;
+
+  function run($object, $container) {
+    $this->count++;
+    $this->object = $object;
+    $this->container = $container;
+  }
+
 }
