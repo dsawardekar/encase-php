@@ -63,6 +63,8 @@ class Container {
   function initializer($key, $callable) {
     $item = $this->items[$key];
     $item->initializer = $callable;
+
+    return $this;
   }
 
   function instanceFor($key, $origin = null) {
