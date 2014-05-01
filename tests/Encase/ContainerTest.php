@@ -5,7 +5,9 @@ namespace Encase;
 use Encase\Container;
 
 class Coin {
-
+  function needs() {
+    return array();
+  }
 }
 
 class ContainerTest extends \PHPUnit_Framework_TestCase {
@@ -104,6 +106,55 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     $this->assertEquals('four', $child->lookup('coin'));
   }
 
+  function test_it_can_use_initializer_with_objects() {
+    $initializer = new MockIntegrationInitializer();
+    $this->container->object('foo', 'bar');
+    $this->container->initializer('foo', array($initializer, 'run'));
+
+    $instance = $this->container->lookup('foo');
+    $this->container->lookup('foo');
+
+    $this->assertEquals('bar', $initializer->object);
+    $this->assertEquals($this->container, $initializer->container);
+    $this->assertEquals(1, $initializer->count);
+  }
+
+  function test_it_can_use_initializer_with_factory_items() {
+    $initializer = new MockIntegrationInitializer();
+    $this->container->factory('foo', 'Encase\Coin');
+    $this->container->initializer('foo', array($initializer, 'run'));
+
+    $instance = $this->container->lookup('foo');
+    $this->container->lookup('foo');
+
+    $this->assertInstanceOf('Encase\Coin', $initializer->object);
+    $this->assertEquals($this->container, $initializer->container);
+    $this->assertEquals(2, $initializer->count);
+  }
+
+  function test_it_can_use_initializer_with_singleton() {
+    $initializer = new MockIntegrationInitializer();
+    $this->container->singleton('foo', 'Encase\Coin');
+    $this->container->initializer('foo', array($initializer, 'run'));
+
+    $instance = $this->container->lookup('foo');
+    $this->container->lookup('foo');
+
+    $this->assertInstanceOf('Encase\Coin', $initializer->object);
+    $this->assertEquals($this->container, $initializer->container);
+    $this->assertEquals(1, $initializer->count);
+  }
 }
 
-?>
+class MockIntegrationInitializer {
+
+  public $count = 0;
+
+  function run($object, $container) {
+    $this->count++;
+    $this->object = $object;
+    $this->container = $container;
+  }
+
+}
+

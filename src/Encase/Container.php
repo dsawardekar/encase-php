@@ -60,6 +60,11 @@ class Container {
     return $this->register('singleton', $key, $value);
   }
 
+  function initializer($key, $callable) {
+    $item = $this->items[$key];
+    $item->initializer = $callable;
+  }
+
   function instanceFor($key, $origin = null) {
     $item = $this->items[$key];
     return $item->instance($origin);

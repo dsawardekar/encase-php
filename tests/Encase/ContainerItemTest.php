@@ -22,6 +22,37 @@ class ContainerItemTest extends \PHPUnit_Framework_TestCase {
     $this->assertEquals('red_box', $this->containerItem->value);
   }
 
+  function test_it_stores_initializer() {
+    $callable = array($this, 'onInitialize');
+    $this->containerItem->initializer = $callable;
+
+    $this->assertEquals($callable, $this->containerItem->initializer);
+  }
+
+  function test_it_knows_if_container_item_does_not_have_initializer() {
+    $this->assertFalse($this->containerItem->hasInitializer());
+  }
+
+  function test_it_knows_if_container_item_has_initializer() {
+    $callable = array($this, 'onInitialize');
+    $this->containerItem->initializer = $callable;
+    $this->assertTrue($this->containerItem->hasInitializer());
+  }
+
+  function onInitialize($object, $container) {
+    $this->initializerObject = $object;
+    $this->initializerContainer = $container;
+  }
+
+  function test_it_can_run_initializer() {
+    $callable = array($this, 'onInitialize');
+    $this->containerItem->initializer = $callable;
+    $this->containerItem->initialize('foo', $this->container);
+
+    $this->assertEquals('foo', $this->initializerObject);
+    $this->assertEquals($this->container, $this->initializerContainer);
+  }
+
   function test_it_injects_container_item_objects_using_container() {
     $object = 'red_box';
     $mockContainer = $this->getMock('Container', array('inject'));
