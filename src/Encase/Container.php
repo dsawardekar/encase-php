@@ -67,6 +67,13 @@ class Container {
     return $this;
   }
 
+  function packager($key, $value) {
+    $this->singleton($key, $value);
+    $item = $this->lookup($key);
+
+    return $this;
+  }
+
   function instanceFor($key, $origin = null) {
     $item = $this->items[$key];
     return $item->instance($origin);
@@ -101,12 +108,13 @@ class Container {
 
       return true;
     } else {
+      $this->notify($object);
       return false;
     }
   }
 
   function needsFor($object) {
-    if (method_exists($object, 'needs')) {
+    if (is_object($object) && method_exists($object, 'needs')) {
       return $object->needs();
     } else {
       return null;
@@ -114,8 +122,8 @@ class Container {
   }
 
   function notify($object) {
-    if (method_exists($object, 'onInject')) {
-      return $object->onInject();
+    if (is_object($object) && method_exists($object, 'onInject')) {
+      return $object->onInject($this);
     }
   }
 }
