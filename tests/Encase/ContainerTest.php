@@ -144,6 +144,25 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     $this->assertEquals($this->container, $initializer->container);
     $this->assertEquals(1, $initializer->count);
   }
+
+  function test_it_allows_package_to_add_items_to_container() {
+    $this->container->packager('myPackager', 'Encase\MyPackager');
+
+    $this->assertEquals('aValue', $this->container->lookup('a'));
+    $this->assertEquals('bValue', $this->container->lookup('b'));
+    $this->assertEquals('cValue', $this->container->lookup('c'));
+  }
+}
+
+class MyPackager {
+
+  function onInject($container) {
+    $container
+      ->object('a', 'aValue')
+      ->object('b', 'bValue')
+      ->object('c', 'cValue');
+  }
+
 }
 
 class MockIntegrationInitializer {
