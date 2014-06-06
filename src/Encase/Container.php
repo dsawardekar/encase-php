@@ -69,7 +69,7 @@ class Container {
 
   function packager($key, $value) {
     $this->singleton($key, $value);
-    $item = $this->lookup($key);
+    $this->lookup($key);
 
     return $this;
   }
