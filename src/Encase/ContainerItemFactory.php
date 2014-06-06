@@ -11,7 +11,7 @@ use Encase\Container;
 class ContainerItemFactory {
 
   function build($type, $container) {
-    $containerItem = $this->containerItemFor($type, $container);
+    $containerItem = $this->containerItemFor($type);
     return new $containerItem($container);
   }
 
