@@ -206,6 +206,43 @@ function initCurrency($currency, $container) {
 }
 ```
 
+## Packagers
+
+Packagers are convenience helpers for grouping the dependencies of a
+feature as a unit. For instance if an `Options` features is comprised of the
+classes, `OptionsStore`, `OptionsPage` and `OptionsValidator` you would
+need to declare this dependencies on the container each time you need
+to use said `Options` feature.
+
+Using a Packager object allows you to add these dependencies to the
+container. A packager should setup the dependencies in it's `onInject`
+function as shown below,
+
+```php
+<?php
+class OptionsPackager {
+
+  function onInject($container) {
+    $this->container
+      ->factory('optionsStore', 'OptionsStore')
+      ->factory('optionsValidator', 'OptionsValidator')
+      ->factory('optionsPage', 'OptionsPage');
+  }
+
+}
+```
+
+Now when you need the feature you only need to add the
+packager to the container.
+
+```php
+<?php
+$container->packager('optionsPackager', 'OptionsPackager')
+```
+
+The `packager` itself will be registered with the container as a
+singleton, and can be looked up by it's key.
+
 ## Nested Containers
 
 Containers can also be nested within other containers. This allows grouping
