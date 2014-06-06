@@ -304,7 +304,7 @@ class Worker implements {
     return array('logger');
   }
 
-  function onInject() {
+  function onInject($container) {
     $this->logger->log('Worker is ready');
   }
 

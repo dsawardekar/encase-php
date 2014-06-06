@@ -5,7 +5,7 @@ namespace Encase;
 interface INeeds {
 
   public function needs();
-  public function onInject();
+  public function onInject($container);
 
 }
 

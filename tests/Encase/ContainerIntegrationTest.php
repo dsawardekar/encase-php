@@ -15,7 +15,7 @@ class FruitBox {
     return array('apple', 'banana', 'mango');
   }
 
-  function onInject() {
+  function onInject($container) {
     $this->injected = true;
   }
 
@@ -27,7 +27,7 @@ class FruitBoxWithNeeds implements INeeds {
     return array('apple', 'banana', 'mango');
   }
 
-  function onInject() {
+  function onInject($container) {
     $this->injected = true;
   }
 
@@ -39,7 +39,7 @@ class Crate {
     return array('fruit_box', 'fruit_box_with_needs');
   }
 
-  function onInject() {
+  function onInject($container) {
     $this->injected = true;
   }
 
