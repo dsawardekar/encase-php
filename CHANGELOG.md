@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.2.0
+
+* Adds ability to specify prebaked group of dependencies.
+* Bumps version with the introduction of Packagers.
+
 ### 0.1.3
 
 * Adds support for Initializers.
