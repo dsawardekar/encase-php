@@ -11,4 +11,8 @@ php:
 before_script:
   - composer install --prefer-source
 
-script: ./vendor/bin/phpunit
+script:
+  - ./vendor/bin/phpunit
+
+after_script:
+  - php vendor/bin/coveralls -v
